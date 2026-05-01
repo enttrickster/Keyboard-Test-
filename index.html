@@ -527,6 +527,62 @@ footer {
   border-top: 3px solid var(--accent);
 }
 footer a { color: #a09070; text-decoration: none; }
+footer a:hover { color: #c8a030; text-decoration: underline; }
+.footer-links { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.footer-links a { font-size: 0.73rem; letter-spacing: 0.1em; text-transform: uppercase; color: #a09070; text-decoration: none; }
+.footer-links a:hover { color: #c8a030; text-decoration: underline; }
+
+/* LEGAL MODAL */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(10,8,4,0.82); z-index: 10000;
+  align-items: flex-start; justify-content: center;
+  padding: 24px 16px 40px; overflow-y: auto;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--bg); border: 2px solid var(--border); border-radius: 10px;
+  max-width: 760px; width: 100%; margin: auto;
+  box-shadow: 0 16px 60px rgba(0,0,0,0.5); overflow: hidden;
+  animation: modalIn 0.22s ease;
+}
+@keyframes modalIn { from { transform:translateY(20px);opacity:0; } to { transform:translateY(0);opacity:1; } }
+.modal-header {
+  background: var(--text); color: #f0e8d8; padding: 18px 24px 16px;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px; border-bottom: 3px solid var(--accent);
+}
+.modal-header h2 { font-family: "Playfair Display",serif; font-size: 1.3rem; font-weight: 600; line-height: 1.2; }
+.modal-header p  { font-size: 0.72rem; color: #7a6a50; margin-top: 4px; font-style: italic; }
+.modal-close {
+  background: none; border: 1px solid #4a3a28; border-radius: 4px;
+  color: #a09070; font-size: 1.1rem; width: 32px; height: 32px; cursor: pointer;
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.15s, color 0.15s;
+}
+.modal-close:hover { border-color: var(--accent); color: #fff; }
+.modal-body { padding: 24px 28px 32px; max-height: 70vh; overflow-y: auto; }
+.modal-body h3 {
+  font-family: "Playfair Display",serif; font-size: 1rem; color: var(--accent);
+  margin: 22px 0 7px; padding-bottom: 5px; border-bottom: 1px solid var(--border);
+}
+.modal-body h3:first-child { margin-top: 0; }
+.modal-body p  { font-size: 0.8rem; color: var(--muted); line-height: 1.7; margin-bottom: 8px; }
+.modal-body ul { margin: 6px 0 10px 18px; font-size: 0.8rem; color: var(--muted); line-height: 1.7; }
+.modal-body ul li { margin-bottom: 4px; }
+.modal-body strong { color: var(--text); font-weight: 700; }
+.modal-body a { color: var(--accent); }
+.modal-body code {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
+  padding: 1px 5px; font-size: 0.75rem; font-family: "Courier New",monospace; color: var(--text);
+}
+.modal-effective {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 5px;
+  padding: 10px 14px; font-size: 0.73rem; color: var(--muted); margin-bottom: 18px;
+  display: flex; gap: 20px; flex-wrap: wrap;
+}
+.modal-effective span strong { color: var(--text); }
+
 
 /* ── COOKIE CONSENT BANNER ── */
 #cookie-banner {
@@ -946,7 +1002,12 @@ footer a { color: #a09070; text-decoration: none; }
 </div>
 
 <footer>
-  <p>&copy; 2025 KeyboardTest.app &mdash; Free online keyboard diagnostic tool &mdash; <a href="#tester">Back to top</a></p>
+  <div class="footer-links">
+    <a href="#" onclick="openModal('privacy');return false;">Privacy Policy</a>
+    <span style="color:#4a3a28;">|</span>
+    <a href="#" onclick="openModal('terms');return false;">Terms &amp; Conditions</a>
+  </div>
+  <p>&copy; 2025 KeyboardTest.app &mdash; Free online keyboard diagnostic tool</p>
   <p style="margin-top:5px;">No keystrokes are ever stored or transmitted. Runs entirely in your browser.</p>
 </footer>
 
@@ -1237,11 +1298,165 @@ document.addEventListener('keydown', function _firstKey() {
      COOKIE CONSENT BANNER
      Required for GDPR (EU), CCPA (California), etc.
      ═══════════════════════════════════════════════════ -->
+
+<!-- PRIVACY POLICY MODAL -->
+<div id="modal-privacy" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="privacy-title">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div><h2 id="privacy-title">Privacy Policy</h2><p>KeyboardTest.app &mdash; Last updated: April 2025</p></div>
+      <button class="modal-close" onclick="closeModal('privacy')" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-effective">
+        <span><strong>Effective:</strong> 25 April 2025</span>
+        <span><strong>Site:</strong> keyboardtest.app</span>
+        <span><strong>Controller:</strong> KeyboardTest.app</span>
+      </div>
+      <h3>1. Overview</h3>
+      <p>KeyboardTest.app ("we", "our", "the site") is committed to protecting your privacy. This Privacy Policy explains what data we collect, why we collect it, and how it is used when you visit our website.</p>
+      <p><strong>Your keystrokes are never collected, stored, or transmitted.</strong> The keyboard test runs entirely in your browser using the JavaScript <code>KeyboardEvent</code> API. No key press data ever leaves your device.</p>
+
+      <h3>2. Information We Collect</h3>
+      <p>We collect two categories of information automatically when you visit the site:</p>
+      <ul>
+        <li><strong>Usage data</strong> &mdash; page views, session duration, browser type, operating system, screen resolution, referring URL, and country (via Google Analytics 4). This data is anonymised and aggregated.</li>
+        <li><strong>Cookie data</strong> &mdash; small text files stored by your browser as described in Section 4 below.</li>
+      </ul>
+      <p>We do <strong>not</strong> collect names, email addresses, or any personally identifiable information. We do not require you to create an account.</p>
+
+      <h3>3. Google Analytics</h3>
+      <p>We use <strong>Google Analytics 4 (GA4)</strong> to understand how visitors use the site. GA4 collects anonymised usage statistics such as which pages are visited and how long sessions last.</p>
+      <ul>
+        <li>IP addresses are anonymised before storage.</li>
+        <li>Data is processed by Google LLC and may be stored outside your country.</li>
+        <li>You can opt out using the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener">Google Analytics Opt-out Add-on</a>.</li>
+        <li>Clicking <strong>Decline</strong> in our cookie banner sets <code>analytics_storage</code> to <code>denied</code> &mdash; GA4 will not track your session.</li>
+      </ul>
+
+      <h3>4. Cookies</h3>
+      <p>We use the following cookies:</p>
+      <ul>
+        <li><strong>_ga, _ga_XXXXXXXX</strong> (Google Analytics) &mdash; distinguish users and sessions. Duration: 2 years / 24 hours. Purpose: analytics.</li>
+        <li><strong>cookie_consent</strong> (First-party, localStorage) &mdash; stores your consent choice. Persists until you clear browser data. Purpose: remembering your preference.</li>
+      </ul>
+      <p>Google AdSense may also set cookies to deliver and measure ads. These are governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>. You can manage or delete cookies at any time in your browser settings.</p>
+
+      <h3>5. Google AdSense &amp; Advertising</h3>
+      <p>We display ads served by <strong>Google AdSense</strong>. Google uses cookies to serve ads based on your prior visits to this and other websites.</p>
+      <ul>
+        <li>Opt out of personalised ads at <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ad Settings</a>.</li>
+        <li>Or visit <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener">aboutads.info</a> for industry-wide opt-out.</li>
+        <li>If you declined cookies, <code>ad_storage</code> is denied and personalised ads will not be served.</li>
+      </ul>
+      <p>We are not responsible for the content of Google ads or third-party websites linked from advertisements.</p>
+
+      <h3>6. Third-Party Services</h3>
+      <ul>
+        <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google LLC</a> &mdash; Analytics &amp; Advertising</li>
+        <li><a href="https://fonts.google.com" target="_blank" rel="noopener">Google Fonts</a> &mdash; Web font delivery</li>
+      </ul>
+
+      <h3>7. Data Retention</h3>
+      <p>Google Analytics data is retained for 14 months. Cookie consent preferences persist in <code>localStorage</code> until you clear your browser data.</p>
+
+      <h3>8. Your Rights</h3>
+      <p>Under GDPR (EU/UK), CCPA (California), or other applicable laws you may have rights to access, correct, or delete data. Since we collect no PII directly, you can exercise most rights by clearing browser cookies and opting out of Google Analytics or ad personalisation.</p>
+
+      <h3>9. Children's Privacy</h3>
+      <p>Another part of our priority is adding protection for children while using the internet. We encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity. We do not knowingly collect personal data from children.</p>
+
+      <h3>10. Changes to This Policy</h3>
+      <p>We may update this policy from time to time. Changes will be posted here with a revised effective date.</p>
+
+      <h3>11. Contact</h3>
+      <p>Questions? Contact us at <strong>privacy@keyboardtest.app</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- TERMS & CONDITIONS MODAL -->
+<div id="modal-terms" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="terms-title">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div><h2 id="terms-title">Terms &amp; Conditions</h2><p>KeyboardTest.app &mdash; Last updated: April 2025</p></div>
+      <button class="modal-close" onclick="closeModal('terms')" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-effective">
+        <span><strong>Effective:</strong> 25 April 2025</span>
+        <span><strong>Jurisdiction:</strong> India</span>
+        <span><strong>Operator:</strong> KeyboardTest.app</span>
+      </div>
+      <h3>1. Acceptance of Terms</h3>
+      <p>By accessing or using KeyboardTest.app ("the Site", "the Service"), you agree to be bound by these Terms &amp; Conditions. If you do not agree, please discontinue use immediately. We reserve the right to modify these Terms at any time; continued use constitutes acceptance of the revised Terms.</p>
+
+      <h3>2. Description of Service</h3>
+      <p>KeyboardTest.app provides a free, browser-based utility that allows users to test the functionality of their physical keyboard keys. The Service operates entirely client-side; <strong>no keystroke data is transmitted to our servers</strong>. The Service is provided "as is" for informational and diagnostic purposes only and is not a substitute for professional hardware diagnosis.</p>
+
+      <h3>3. Permitted Use</h3>
+      <p>You may use the Site for personal, non-commercial keyboard testing. You agree not to:</p>
+      <ul>
+        <li>Use automated scripts, bots, or scrapers to access the Site.</li>
+        <li>Reverse-engineer, copy, or redistribute the Site's code without permission.</li>
+        <li>Interfere with the Site's operation or servers.</li>
+        <li>Use the Site for any unlawful purpose.</li>
+        <li>Frame or embed the Site in another website without prior written consent.</li>
+      </ul>
+
+      <h3>4. Intellectual Property</h3>
+      <p>All content on this Site &mdash; including text, graphics, design, code, logos, and layout &mdash; is the intellectual property of KeyboardTest.app unless otherwise noted. You may not reproduce, distribute, or create derivative works without explicit written permission. The underlying keyboard event data (key codes, names) is part of the W3C Web standard and is not subject to copyright.</p>
+
+      <h3>5. Advertisements</h3>
+      <p>The Site displays advertisements served by Google AdSense and potentially other third-party ad networks. We are not responsible for the content of any third-party advertisements. Clicking on ads may take you to third-party websites governed by their own terms and privacy policies. We reserve the right to place and change ad placements at our discretion.</p>
+
+      <h3>6. Disclaimer of Warranties</h3>
+      <p>The Service is provided <strong>"as is"</strong> and <strong>"as available"</strong> without warranties of any kind, including but not limited to accuracy, fitness for a particular purpose, or uninterrupted operation. Browser limitations, OS-level key interception, and keyboard firmware may affect test results. We do not warrant that results will meet your requirements.</p>
+
+      <h3>7. Limitation of Liability</h3>
+      <p>To the fullest extent permitted by law, KeyboardTest.app shall not be liable for any direct, indirect, incidental, special, or consequential damages arising from your use of the Service, including inaccuracy in test results, hardware damage, or reliance on third-party content or advertisements.</p>
+
+      <h3>8. Third-Party Links</h3>
+      <p>The Site may contain links to third-party websites (including through ads). These are provided for convenience only. We have no control over third-party content and accept no responsibility for them or for any loss arising from your use of them.</p>
+
+      <h3>9. Privacy</h3>
+      <p>Your use of the Site is also governed by our <a href="#" onclick="closeModal('terms');setTimeout(()=>openModal('privacy'),100);return false;">Privacy Policy</a>, which is incorporated into these Terms by reference.</p>
+
+      <h3>10. Governing Law</h3>
+      <p>These Terms shall be governed by the laws of India. Disputes shall be subject to the exclusive jurisdiction of courts in India.</p>
+
+      <h3>11. Severability</h3>
+      <p>If any provision is found unenforceable, it shall be limited to the minimum extent necessary, and the remaining Terms remain in full force and effect.</p>
+
+      <h3>12. Entire Agreement</h3>
+      <p>These Terms, together with our Privacy Policy, constitute the entire agreement between you and KeyboardTest.app regarding use of the Site.</p>
+
+      <h3>13. Contact</h3>
+      <p>Questions? Contact us at <strong>legal@keyboardtest.app</strong></p>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal(id) {
+  var el = document.getElementById('modal-' + id);
+  if (!el) return;
+  el.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  el.onclick = function(e) { if (e.target === el) closeModal(id); };
+  document.addEventListener('keydown', function esc(e) {
+    if (e.key === 'Escape') { closeModal(id); document.removeEventListener('keydown', esc); }
+  });
+}
+function closeModal(id) {
+  var el = document.getElementById('modal-' + id);
+  if (el) { el.classList.remove('open'); document.body.style.overflow = ''; }
+}
+</script>
 <div id="cookie-banner" class="hidden" role="dialog" aria-live="polite" aria-label="Cookie consent">
   <p>
     We use cookies and similar technologies to analyse traffic and serve relevant ads.
     Your keystrokes are <strong>never</strong> stored or transmitted.
-    See our <a href="/privacy">Privacy Policy</a> for details.
+    See our <a href="#" onclick="openModal('privacy');return false;">Privacy Policy</a> for details.
   </p>
   <div class="cookie-btns">
     <button class="cookie-btn decline" id="cookie-decline">Decline</button>
